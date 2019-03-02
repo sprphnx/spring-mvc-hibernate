@@ -2,10 +2,9 @@ package com.sprphnx.crm.dao;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +17,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 	SessionFactory sessionFactory;
 
 	@Override
-	@Transactional
 	public Customer getCustomerById(long id) {
 		Session session = sessionFactory.getCurrentSession();
 		Customer customer = session.get(Customer.class, id);
@@ -27,12 +25,32 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	@Transactional
 	public List<Customer> getAllCustomer() {
 		Session session = sessionFactory.getCurrentSession();
 		List<Customer> customers = session.createQuery("from Customer").getResultList();
 		
 		return customers;
+	}
+
+	@Override
+	public void addCustomer(Customer customer) {
+		Session session = sessionFactory.getCurrentSession();
+		session.save(customer);
+	}
+
+	@Override
+	public void updateCustomer(Customer customer) {
+		Session session = sessionFactory.getCurrentSession();
+		session.merge(customer);
+		
+	}
+
+	@Override
+	public void deleteCustomer(long customerId) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("delete Customer c where c.id = :id");
+		query.setParameter("id", customerId);
+		query.executeUpdate();
 	}
 
 	

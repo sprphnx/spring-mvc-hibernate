@@ -9,10 +9,12 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
          <context:component-scan
-            base-package="com.sprphnx.crm.controller, com.sprphnx.crm.dao"/>
+            base-package="com.sprphnx.crm.controller, com.sprphnx.crm.service, com.sprphnx.crm.dao"/>
 
 
     <mvc:annotation-driven />
+
+	<mvc:resources location="/resources/" mapping="/resources/**"/>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	        <!-- Example: a logical view name of 'showMessage' is mapped to '/WEB-INF/jsp/showMessage.jsp' -->
